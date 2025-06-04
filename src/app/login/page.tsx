@@ -8,7 +8,7 @@ import { api } from "@/lib/api";
 import Image from "next/image";
 
 export default function LoginPage() {
-  const { user, loginWithRedirect, logout, isAuthenticated, isLoading } = useAuth0();
+  const { user, loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
   const [checking, setChecking] = useState(true);
   const router = useRouter();
 
@@ -33,7 +33,7 @@ export default function LoginPage() {
           router.push("/dashboard");
         }
       } catch (err: unknown) {
-        const error = err as any;
+        const error = err as { response?: { status?: number } };
         if (error.response?.status === 404) {
           // Register new user
           await api.post("/users/register", {
